@@ -16,14 +16,15 @@ import { setLogin } from 'State';
 import Dropzone from 'react-dropzone';
 import FlexBetween from 'Components/FlexBetween';
 
+
 // Validation
 const registerSchema = yup.object().shape({
   firstName: yup.string().required('required'),
   lastName: yup.string().required('required'),
   email: yup.string().email('Invalid email').required('required'),
   password: yup.string().required('required'),
-  location: yup.string().required('required'),
-  occupation: yup.string().required('required'),
+  // location: yup.string().required('required'),
+  // occupation: yup.string().required('required'),
   picture: yup.string().required('required'),
 });
 
@@ -37,8 +38,8 @@ const initialValuesRegister = {
   lastName: '',
   email: '',
   password: '',
-  location: '',
-  occupation: '',
+  // location: '',
+  // occupation: '',
   picture: '',
 };
 
@@ -65,24 +66,26 @@ const Form = () => {
     }
 
     // picturePath set from BE
-    formData.append('picturePath', values.picture.name);
+    // formData.append('picturePath', values.picture.name);
 
     const saveUserResponse = await fetch(
       // wait api
+      'http://localhost:3001/createUser',
       { method: 'POST', body: formData }
     );
-    const savedUser = await saveUserResponse.json();
+    // const savedUser = await saveUserResponse.json();
     onSubmitProps.resetForm();
 
-    if (savedUser) {
-      setPageType('Login');
-    }
+    // if (savedUser) {
+    //   setPageType('http://localhost:3000/');
+    // }
   };
 
   //   Login handle
   const login = async (values, onSubmitProps) => {
     const loggedInResponse = await fetch(
       // wait api
+      'http://localhost:3001/auth/login',
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -158,7 +161,7 @@ const Form = () => {
                   helperText={touched.lastName && errors.lastName}
                   sx={{ gridColumn: 'span 2' }}
                 />
-                <TextField
+                {/* <TextField
                   label='Location'
                   onBlur={handleBlur}
                   onChange={handleChange}
@@ -179,8 +182,8 @@ const Form = () => {
                   }
                   helperText={touched.occupation && errors.occupation}
                   sx={{ gridColumn: 'span 4' }}
-                />
-                <Box
+                /> */}
+                {/* <Box
                   gridColumn='span 4'
                   border={`1px solid ${palette.neutral.medium}`}
                   borderRadius='5px'
@@ -212,7 +215,7 @@ const Form = () => {
                       </Box>
                     )}
                   </Dropzone>
-                </Box>
+                </Box> */}
               </>
             )}
 

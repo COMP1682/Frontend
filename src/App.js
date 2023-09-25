@@ -11,7 +11,7 @@ import Profile from 'Scenes/Profile/Profile';
 function App() {
   const mode = useSelector((state) => state.mode);
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
-  const isAuth = Boolean(useSelector((state) => state.token));
+  // const isAuth = Boolean(useSelector((state) => state.token));
   return (
     <div className='app'>
       <BrowserRouter>
@@ -21,11 +21,13 @@ function App() {
             <Route path='/' element={<Login />} />
             <Route
               path='/home'
-              element={isAuth ? <Home /> : <Navigate to='/' />}
+              // element={isAuth ? <Home /> : <Navigate to='/'
+              element={<Home />}
             />
             <Route
               path='/profile/:userId'
-              element={isAuth ? <Profile /> : <Navigate to='/' />}
+              // element={isAuth ? <Profile /> : <Navigate to='/' />}
+              element={<Profile />}
             />
           </Routes>
         </ThemeProvider>
