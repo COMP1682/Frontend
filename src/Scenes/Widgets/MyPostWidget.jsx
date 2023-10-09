@@ -31,7 +31,7 @@ const MyPostWidget = ({ picturePath }) => {
   const [image, setImage] = useState(null);
   const [post, setPost] = useState('');
   const { palette } = useTheme();
-  // const { _id } = useSelector((state) => state.user);
+  const { _id } = useSelector((state) => state.user);
   const token = useSelector((state) => state.token);
   const isNonMobileScreens = useMediaQuery('(min-width: 1000px)');
   const mediumMain = palette.neutral.mediumMain;
@@ -39,21 +39,23 @@ const MyPostWidget = ({ picturePath }) => {
 
   const handlePost = async () => {
     const formData = new FormData();
-    // formData.append('userId', _id);
+    formData.append('userId', _id);
     formData.append('userId', 123);
     formData.append('description', post.description);
-    if (image) {
-      formData.append('picture', image);
-      formData.append('picturePath', image.name);
-    }
+
+    let object = {};
+    formData.forEach((value, key) => {
+      object[key] = value;
+    });
+    let data = JSON.stringify(object);
 
     const response = await fetch(
       // api
-      // `http://localhost:3001/posts`,
+      `http://localhost:3001/posts`,
       {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}` },
-        body: formData,
+        body: data,
       }
     );
     const posts = await response.json();
