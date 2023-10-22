@@ -75,7 +75,7 @@ const Form = () => {
 
     const saveUserResponse = await fetch(
       // wait api
-      'http://localhost:3001/createUser',
+      'http://localhost:3001/users/createUser',
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
