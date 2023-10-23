@@ -49,15 +49,15 @@ const UserWidget = ({ userId, picturePath }) => {
     location,
     occupation,
     viewedProfile,
-    impression,
+    impressions,
     friends,
   } = user;
 
   return (
     <WidgetWrapper>
-      {/* First row */}
+      {/* FIRST ROW */}
       <FlexBetween
-        gap='.5rem'
+        gap='0.5rem'
         pb='1.1rem'
         onClick={() => navigate(`/profile/${userId}`)}
       >
@@ -69,12 +69,15 @@ const UserWidget = ({ userId, picturePath }) => {
               color={dark}
               fontWeight='500'
               sx={{
-                '&:hover': { color: palette.primary.light, cursor: 'pointer' },
+                '&:hover': {
+                  color: palette.primary.light,
+                  cursor: 'pointer',
+                },
               }}
             >
               {firstName} {lastName}
             </Typography>
-            <Typography color={medium}>{friends.lenght} friends</Typography>
+            <Typography color={medium}>{friends.length} friends</Typography>
           </Box>
         </FlexBetween>
         <ManageAccountsOutlined />
@@ -82,9 +85,9 @@ const UserWidget = ({ userId, picturePath }) => {
 
       <Divider />
 
-      {/* Second row */}
+      {/* SECOND ROW */}
       <Box p='1rem 0'>
-        <Box display='flex' alignItems='center' gap='1rem' mb='.5rem'>
+        <Box display='flex' alignItems='center' gap='1rem' mb='0.5rem'>
           <LocationOnOutlined fontSize='large' sx={{ color: main }} />
           <Typography color={medium}>{location}</Typography>
         </Box>
@@ -96,29 +99,31 @@ const UserWidget = ({ userId, picturePath }) => {
 
       <Divider />
 
-      {/* Third row */}
-      <Box p='1 rem 0'>
-        <FlexBetween mb='.5rem'>
-          <Typography color={medium}>Who's viewd your profile</Typography>
+      {/* THIRD ROW */}
+      <Box p='1rem 0'>
+        <FlexBetween mb='0.5rem'>
+          <Typography color={medium}>Who's viewed your profile</Typography>
           <Typography color={main} fontWeight='500'>
             {viewedProfile}
           </Typography>
-
-          <Typography color={medium}>Impression of your post</Typography>
+        </FlexBetween>
+        <FlexBetween>
+          <Typography color={medium}>Impressions of your post</Typography>
           <Typography color={main} fontWeight='500'>
-            {impression}
+            {impressions}
           </Typography>
         </FlexBetween>
       </Box>
 
       <Divider />
 
-      {/* Fourth row */}
+      {/* FOURTH ROW */}
       <Box p='1rem 0'>
         <Typography fontSize='1rem' color={main} fontWeight='500' mb='1rem'>
           Social Profiles
         </Typography>
-        <FlexBetween gap='1rem' mb='.5rem'>
+
+        <FlexBetween gap='1rem' mb='0.5rem'>
           <FlexBetween gap='1rem'>
             <img src='../assets/twitter.png' alt='twitter' />
             <Box>
@@ -131,7 +136,7 @@ const UserWidget = ({ userId, picturePath }) => {
           <EditOutlined sx={{ color: main }} />
         </FlexBetween>
 
-        <FlexBetween gap='1rem' mb='.5rem'>
+        <FlexBetween gap='1rem'>
           <FlexBetween gap='1rem'>
             <img src='../assets/linkedin.png' alt='linkedin' />
             <Box>

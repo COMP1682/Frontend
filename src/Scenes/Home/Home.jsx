@@ -5,7 +5,6 @@ import FriendListWidget from 'Scenes/Widgets/FriendListWidget';
 import MyPostWidget from 'Scenes/Widgets/MyPostWidget';
 import PostsWidget from 'Scenes/Widgets/PostsWidget';
 import UserWidget from 'Scenes/Widgets/UserWidget';
-import React from 'react';
 import { useSelector } from 'react-redux';
 
 const Home = () => {
@@ -24,23 +23,19 @@ const Home = () => {
       >
         <Box flexBasis={isNonMobileScreens ? '26%' : undefined}>
           <UserWidget userId={_id} picturePath={picturePath} />
-          {/* <UserWidget userId='123'  /> */}
         </Box>
         <Box
           flexBasis={isNonMobileScreens ? '42%' : undefined}
           mt={isNonMobileScreens ? undefined : '2rem'}
         >
           <MyPostWidget picturePath={picturePath} />
-          {/* <MyPostWidget /> */}
           <PostsWidget userId={_id} />
-          {/* <PostsWidget userId='123' /> */}
         </Box>
         {isNonMobileScreens && (
           <Box flexBasis='26%'>
             <AdvertWidget />
             <Box m='2rem 0' />
-            <FriendListWidget userId={_id}/>
-            {/* <FriendListWidget userId='123'/> */}
+            <FriendListWidget userId={_id} />
           </Box>
         )}
       </Box>

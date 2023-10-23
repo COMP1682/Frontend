@@ -3,32 +3,33 @@ import FlexBetween from 'Components/FlexBetween';
 import WidgetWrapper from 'Components/WidgetWrapper';
 
 const AdvertWidget = () => {
-  const palette = useTheme();
-  // const dark = palette.neutral.dark;
-  // const main = palette.neutral.main;
-  // const medium = palette.neutral.medium;
+  const { palette } = useTheme();
+  const dark = palette.neutral.dark;
+  const main = palette.neutral.main;
+  const medium = palette.neutral.medium;
 
   return (
     <WidgetWrapper>
       <FlexBetween>
-        <Typography color={'gray'} variant='h5' fontWeight='500'>
+        <Typography color={dark} variant='h5' fontWeight='500'>
           Sponsored
         </Typography>
-        <Typography color={'gray'}>Create AD</Typography>
+        <Typography color={medium}>Create Ad</Typography>
       </FlexBetween>
       <img
         width='100%'
         height='auto'
         alt='advert'
-        src='abc'
+        src='http://localhost:3001/assets/info4.jpeg'
         style={{ borderRadius: '.75rem', margin: '.75rem 0' }}
       />
       <FlexBetween>
-        <Typography color={'gray'}>MikaCosmic</Typography>
-        <Typography color={'gray'}>abc.com</Typography>
+        <Typography color={main}>MikaCosmetics</Typography>
+        <Typography color={medium}>mikacosmetics.com</Typography>
       </FlexBetween>
-      <Typography m='0.5rem 0' color={'gray'}>
-        Your pathway to stunning and immaculate beauty and make sure your skin is exfoliating skin and shining like light
+      <Typography color={medium} m='0.5rem 0'>
+        Your pathway to stunning and immaculate beauty and made sure your skin
+        is exfoliating skin and shining like light.
       </Typography>
     </WidgetWrapper>
   );

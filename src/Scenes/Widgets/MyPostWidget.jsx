@@ -67,10 +67,10 @@ const MyPostWidget = ({ picturePath }) => {
 
   return (
     <WidgetWrapper>
-      <FlexBetween gap='.5rem'>
+      <FlexBetween gap='1.5rem'>
         <UserImage image={picturePath} />
         <InputBase
-          placeholder="What's on your mind"
+          placeholder="What's on your mind..."
           onChange={(e) => setPost(e.target.value)}
           value={post}
           sx={{
@@ -81,16 +81,15 @@ const MyPostWidget = ({ picturePath }) => {
           }}
         />
       </FlexBetween>
-      {/* To add Image for the post */}
       {isImage && (
         <Box
-          borderRadius='5px'
           border={`1px solid ${medium}`}
+          borderRadius='5px'
           mt='1rem'
           p='1rem'
         >
           <Dropzone
-            acceptedFiles='.jpg, .jpeg, .png '
+            acceptedFiles='.jpg,.jpeg,.png'
             multiple={false}
             onDrop={(acceptedFiles) => setImage(acceptedFiles[0])}
           >
@@ -98,7 +97,7 @@ const MyPostWidget = ({ picturePath }) => {
               <FlexBetween>
                 <Box
                   {...getRootProps()}
-                  border={`2px dashed ${palette.primarymain}`}
+                  border={`2px dashed ${palette.primary.main}`}
                   p='1rem'
                   width='100%'
                   sx={{ '&:hover': { cursor: 'pointer' } }}
@@ -130,7 +129,7 @@ const MyPostWidget = ({ picturePath }) => {
       <Divider sx={{ margin: '1.25rem 0' }} />
 
       <FlexBetween>
-        <FlexBetween gap='.25rem' onClick={() => setIsImage(!isImage)}>
+        <FlexBetween gap='0.25rem' onClick={() => setIsImage(!isImage)}>
           <ImageOutlined sx={{ color: mediumMain }} />
           <Typography
             color={mediumMain}
@@ -142,21 +141,23 @@ const MyPostWidget = ({ picturePath }) => {
 
         {isNonMobileScreens ? (
           <>
-            <FlexBetween gap='.25rem'>
+            <FlexBetween gap='0.25rem'>
               <GifBoxOutlined sx={{ color: mediumMain }} />
-              <Typography color={mediumMain}>Clips</Typography>
+              <Typography color={mediumMain}>Clip</Typography>
             </FlexBetween>
-            <FlexBetween gap='.25rem'>
+
+            <FlexBetween gap='0.25rem'>
               <AttachFileOutlined sx={{ color: mediumMain }} />
-              <Typography color={mediumMain}>Attachments</Typography>
+              <Typography color={mediumMain}>Attachment</Typography>
             </FlexBetween>
-            <FlexBetween gap='.25rem'>
+
+            <FlexBetween gap='0.25rem'>
               <MicOutlined sx={{ color: mediumMain }} />
               <Typography color={mediumMain}>Audio</Typography>
             </FlexBetween>
           </>
         ) : (
-          <FlexBetween gap='.25rem'>
+          <FlexBetween gap='0.25rem'>
             <MoreHorizOutlined sx={{ color: mediumMain }} />
           </FlexBetween>
         )}
@@ -166,7 +167,7 @@ const MyPostWidget = ({ picturePath }) => {
           onClick={handlePost}
           sx={{
             color: palette.background.alt,
-            backgroundColor: palette.background.main,
+            backgroundColor: palette.primary.main,
             borderRadius: '3rem',
           }}
         >
