@@ -16,7 +16,8 @@ const Profile = () => {
   const getUser = async () => {
     const response = await fetch(
       // api
-      `http://localhost:3001/users/${userId}`,
+      // `http://localhost:3001/users/${userId}`,
+      `http://localhost:3001/getUser/:id`,
       {
         method: 'GET',
         headers: { Auuthorization: `Bearer ${token}` },
