@@ -25,7 +25,7 @@ const UserWidget = ({ userId, picturePath }) => {
     const response = await fetch(
       //api
       // `http://localhost:3001/users/${userId}`,
-      `http://localhost:3001/getUser/:id`,
+      `http://localhost:3001/users/getUser/${userId}`,
       {
         method: 'GET',
         headers: { Authorization: `Bearer ${token}` },

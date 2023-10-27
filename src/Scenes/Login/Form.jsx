@@ -22,7 +22,7 @@ const registerSchema = yup.object().shape({
   lastName: yup.string().required('required'),
   email: yup.string().email('Invalid email').required('required'),
   password: yup.string().required('required'),
-  // location: yup.string().required('required'),
+  location: yup.string().required('required'),
   // occupation: yup.string().required('required'),
   picture: yup.string().required('required'),
 });
@@ -37,7 +37,7 @@ const initialValuesRegister = {
   lastName: '',
   email: '',
   password: '',
-  // location: '',
+  location: '',
   // occupation: '',
   picture: '',
 };
@@ -86,7 +86,7 @@ const Form = () => {
     onSubmitProps.resetForm();
 
     if (savedUser) {
-      setPageType('http://localhost:3000/');
+      setPageType('Login');
     }
   };
 
@@ -170,7 +170,7 @@ const Form = () => {
                   helperText={touched.lastName && errors.lastName}
                   sx={{ gridColumn: 'span 2' }}
                 />
-                {/* <TextField
+                <TextField
                   label='Location'
                   onBlur={handleBlur}
                   onChange={handleChange}
@@ -180,6 +180,7 @@ const Form = () => {
                   helperText={touched.location && errors.location}
                   sx={{ gridColumn: 'span 4' }}
                 />
+                {/* 
                 <TextField
                   label='Occupation'
                   onBlur={handleBlur}

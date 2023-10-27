@@ -52,7 +52,7 @@ const MyPostWidget = ({ picturePath }) => {
     const response = await fetch(
       // api
       // `http://localhost:3001/posts`,
-      `http://localhost:3001/createPost/`,
+      `http://localhost:3001/post/createPost/`,
       {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}` },

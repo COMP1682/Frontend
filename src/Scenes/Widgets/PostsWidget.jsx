@@ -11,7 +11,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
   const getPosts = async () => {
     const response = await fetch(
       // api
-      'http://localhost:3001/getUser/:id',
+      `http://localhost:3001/post/getPost/`,
       {
         method: 'GET',
         headers: { Authorization: `Bearer ${token}` },
@@ -24,7 +24,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
   const getUserPosts = async () => {
     const response = await fetch(
       // api
-      `http://localhost:3001/getUser/:id`,
+      `http://localhost:3001/post/getUserPosts/${userId}`,
       {
         method: 'GET',
         headers: { Authorization: `Bearer ${token}` },
@@ -33,6 +33,9 @@ const PostsWidget = ({ userId, isProfile = false }) => {
     const data = await response.json();
     dispatch(setPosts({ posts: data }));
   };
+  console.log('token', token)
+  console.log('posts', posts)
+
 
   useEffect(() => {
     if (isProfile) {
@@ -44,7 +47,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
 
   return (
     <>
-      {posts.map(
+      {posts?.map(
         ({
           _id,
           userId,
@@ -56,7 +59,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
           userPicturePath,
           likes,
           comments,
-        }) => (
+      }) => (
           <PostWidget
             key={_id}
             postId={_id}
@@ -69,6 +72,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
             likes={likes}
             comments={comments}
           />
+       
         )
       )}
     </>
