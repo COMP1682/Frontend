@@ -19,7 +19,7 @@ const Profile = () => {
       `http://localhost:3001/users/getUser/${userId}`,
       {
         method: 'GET',
-        headers: { Auuthorization: `Bearer ${token}` },
+        headers: { Auuthorization: `${token}` },
       }
     );
     const data = await response.json();

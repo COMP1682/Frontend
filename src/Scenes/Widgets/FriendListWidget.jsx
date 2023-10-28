@@ -18,7 +18,7 @@ const FriendListWidget = ({ userId }) => {
       {
         method: 'GET',
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `${token}`,
         },
       }
     );

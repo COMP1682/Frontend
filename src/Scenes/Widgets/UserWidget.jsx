@@ -28,7 +28,7 @@ const UserWidget = ({ userId, picturePath }) => {
       `http://localhost:3001/users/getUser/${userId}`,
       {
         method: 'GET',
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `${token}` },
       }
     );
     const data = await response.json();
@@ -77,7 +77,7 @@ const UserWidget = ({ userId, picturePath }) => {
             >
               {firstName} {lastName}
             </Typography>
-            <Typography color={medium}>{friends.length} friends</Typography>
+            <Typography color={medium}>{friends?.length} friends</Typography>
           </Box>
         </FlexBetween>
         <ManageAccountsOutlined />

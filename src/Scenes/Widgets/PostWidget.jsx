@@ -42,7 +42,7 @@ const PostWidget = ({
       {
         method: 'PATCH',
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `${token}`,
           'Content-type': 'application/json',
         },
         body: JSON.stringify({ userId: loggedInUserId }),

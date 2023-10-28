@@ -40,7 +40,6 @@ const MyPostWidget = ({ picturePath }) => {
   const handlePost = async () => {
     const formData = new FormData();
     formData.append('userId', _id);
-    formData.append('userId', 123);
     formData.append('description', post.description);
 
     let object = {};
@@ -52,10 +51,10 @@ const MyPostWidget = ({ picturePath }) => {
     const response = await fetch(
       // api
       // `http://localhost:3001/posts`,
-      `http://localhost:3001/post/createPost/`,
+      `http://localhost:3001/post/createPost/${_id}`,
       {
         method: 'POST',
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `${token}` },
         body: data,
       }
     );

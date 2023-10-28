@@ -1,12 +1,13 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setPosts } from 'State';
+import { setPost, setPosts } from 'State';
 import PostWidget from './PostWidget';
 
 const PostsWidget = ({ userId, isProfile = false }) => {
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts);
   const token = useSelector((state) => state.token);
+  const post = [];
 
   const getPosts = async () => {
     const response = await fetch(
@@ -14,10 +15,11 @@ const PostsWidget = ({ userId, isProfile = false }) => {
       `http://localhost:3001/post/getPost/`,
       {
         method: 'GET',
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `${token}` },
       }
     );
     const data = await response.json();
+    console.log("data1",data);
     dispatch(setPosts({ posts: data }));
   };
 
@@ -27,15 +29,15 @@ const PostsWidget = ({ userId, isProfile = false }) => {
       `http://localhost:3001/post/getUserPosts/${userId}`,
       {
         method: 'GET',
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `${token}` },
       }
     );
     const data = await response.json();
+    console.log("data2",data);
     dispatch(setPosts({ posts: data }));
   };
   console.log('token', token)
-  console.log('posts', posts)
-
+  console.log("posts", posts)
 
   useEffect(() => {
     if (isProfile) {
@@ -44,10 +46,12 @@ const PostsWidget = ({ userId, isProfile = false }) => {
       getPosts();
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
+  if(posts != null && Array.isArray(posts))
+  {
   return (
-    <>
-      {posts?.map(
+    <>  
+
+      {posts.map(
         ({
           _id,
           userId,
@@ -77,6 +81,11 @@ const PostsWidget = ({ userId, isProfile = false }) => {
       )}
     </>
   );
+}
+else
+{
+  return 123;
+}
 };
 
 export default PostsWidget;
