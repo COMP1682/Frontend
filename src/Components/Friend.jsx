@@ -23,11 +23,11 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
 
   const patchFriend = async () => {
     const response = await fetch(
-      `http://localhost:3001/users/addRemoveFriend/${_id}${friendId}}`,
+      `http://localhost:3001/users/addRemoveFriend/${_id}/${friendId}`,
       {
         method: 'PATCH',
         headers: {
-          Authorization: `${token}`,
+          Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
       }

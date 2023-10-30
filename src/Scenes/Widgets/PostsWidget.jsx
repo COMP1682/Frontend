@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setPost, setPosts } from 'State';
+import { setPosts } from 'State';
 import PostWidget from './PostWidget';
 
 const PostsWidget = ({ userId, isProfile = false }) => {
@@ -19,7 +19,6 @@ const PostsWidget = ({ userId, isProfile = false }) => {
       }
     );
     const data = await response.json();
-    console.log("data1",data);
     dispatch(setPosts({ posts: data }));
   };
 
@@ -33,11 +32,8 @@ const PostsWidget = ({ userId, isProfile = false }) => {
       }
     );
     const data = await response.json();
-    console.log("data2",data);
     dispatch(setPosts({ posts: data }));
   };
-  console.log('token', token)
-  console.log("posts", posts)
 
   useEffect(() => {
     if (isProfile) {
@@ -46,11 +42,10 @@ const PostsWidget = ({ userId, isProfile = false }) => {
       getPosts();
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
-  if(posts != null && Array.isArray(posts))
+  if(post != null && Array.isArray(post))
   {
   return (
     <>  
-
       {posts.map(
         ({
           _id,
@@ -76,7 +71,6 @@ const PostsWidget = ({ userId, isProfile = false }) => {
             likes={likes}
             comments={comments}
           />
-       
         )
       )}
     </>
