@@ -9,8 +9,8 @@ const FriendListWidget = ({ userId }) => {
   const dispatch = useDispatch();
   const { palette } = useTheme();
   const token = useSelector((state) => state.token);
-  const friends = useSelector((state) => state.user.friends);
-
+  // const friends = useSelector((state) => state.user.friends);
+  let friends = [];
   const getFriends = async () => {
     const response = await fetch(
       // api
@@ -30,6 +30,7 @@ const FriendListWidget = ({ userId }) => {
     getFriends();
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
 
+  if (friends != null && Array.isArray(friends)) {
     return (
       <WidgetWrapper>
         <Typography
@@ -53,6 +54,9 @@ const FriendListWidget = ({ userId }) => {
         </Box>
       </WidgetWrapper>
     );
+  } else {
+    return <></>;
+  }
 };
 
 export default FriendListWidget;

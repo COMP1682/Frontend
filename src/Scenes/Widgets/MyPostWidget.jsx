@@ -40,7 +40,7 @@ const MyPostWidget = ({ picturePath }) => {
   const handlePost = async () => {
     const formData = new FormData();
     formData.append('userId', _id);
-    formData.append('description', post.description);
+    formData.append('description', post);
 
     let object = {};
     formData.forEach((value, key) => {

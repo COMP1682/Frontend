@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { setFriends } from 'State';
 import FlexBetween from './FlexBetween';
 import UserImage from './UserImage';
+// import { array } from 'yup';
 
 const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
   const dispatch = useDispatch();
@@ -19,7 +20,12 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
   const main = palette.neutral.main;
   const medium = palette.neutral.medium;
 
-  const isFriend = friends.find((friend) => friend._id === friendId);
+  var isFriend;
+  if (friends != null && Array.isArray(friends)) {
+    isFriend = friends.find((friend) => friend._id === friendId);
+  } else {
+    isFriend = false;
+  }
 
   const patchFriend = async () => {
     const response = await fetch(
@@ -27,7 +33,7 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
       {
         method: 'PATCH',
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `${token}`,
           'Content-Type': 'application/json',
         },
       }
