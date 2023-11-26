@@ -41,7 +41,20 @@ const MyPostWidget = ({ picturePath }) => {
     const formData = new FormData();
     formData.append('userId', _id);
     formData.append('description', post);
+    
+    const imageFromData = new FormData();
+    imageFromData.append("file",image);
+    imageFromData.append("upload_preset","vwbduorq");
 
+    const reponseCloudinary = await fetch(
+      `https://api.cloudinary.com/v1_1/dejsaxkf2/image/upload`,
+      {
+        method: 'POST',
+        body: imageFromData,
+      }
+    )
+    const dataFromCloudinary = await reponseCloudinary.json();
+    formData.append('picturePath', dataFromCloudinary.secure_url);
     let object = {};
     formData.forEach((value, key) => {
       object[key] = value;
