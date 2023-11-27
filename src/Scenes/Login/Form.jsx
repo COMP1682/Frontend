@@ -7,14 +7,14 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
-// import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setLogin } from 'State';
-// import Dropzone from 'react-dropzone';
-// import FlexBetween from 'Components/FlexBetween';
+import Dropzone from 'react-dropzone';
+import FlexBetween from 'Components/FlexBetween';
 
 // Validation
 const registerSchema = yup.object().shape({
@@ -24,7 +24,7 @@ const registerSchema = yup.object().shape({
   password: yup.string().required('required'),
   location: yup.string().required('required'),
   // occupation: yup.string().required('required'),
-  picture: yup.string().required('required'),
+  picturePath: yup.string().required('required'),
 });
 
 const loginSchema = yup.object().shape({
@@ -39,7 +39,7 @@ const initialValuesRegister = {
   password: '',
   location: '',
   // occupation: '',
-  picture: '',
+  picturePath: '',
 };
 
 const initialValuesLogin = {
@@ -57,7 +57,24 @@ const Form = () => {
   const isRegister = pageType === 'Register';
 
   //Register handle
+
   const register = async (values, onSubmitProps) => {
+
+    const imageFromData = new FormData();
+    imageFromData.append("file",values.picturePath);
+    imageFromData.append("upload_preset","vwbduorq");
+  
+    const reponseCloudinary = await fetch(
+      `https://api.cloudinary.com/v1_1/dejsaxkf2/image/upload`,
+      {
+        method: 'POST',
+        body: imageFromData,
+      }
+    )
+    const dataFromCloudinary = await reponseCloudinary.json();
+    values.picturePath = dataFromCloudinary.secure_url;
+
+
     //this allows us to send form info with image
     const formData = new FormData();
     for (let value in values) {
@@ -193,7 +210,7 @@ const Form = () => {
                   helperText={touched.occupation && errors.occupation}
                   sx={{ gridColumn: 'span 4' }}
                 /> */}
-                {/* <Box
+                { <Box
                   gridColumn='span 4'
                   border={`1px solid ${palette.neutral.medium}`}
                   borderRadius='5px'
@@ -203,7 +220,7 @@ const Form = () => {
                     acceptedFiles='.jpg, .jpeg, .png '
                     multiple={false}
                     onDrop={(acceptedFiles) =>
-                      setFieldValue('picture', acceptedFiles[0])
+                      setFieldValue('picturePath', acceptedFiles[0])
                     }
                   >
                     {({ getRootProps, getInputProps }) => (
@@ -214,18 +231,18 @@ const Form = () => {
                         sx={{ '&:hover': { cursor: 'pointer' } }}
                       >
                         <input {...getInputProps()} />
-                        {!values.picture ? (
+                        {!values.picturePath ? (
                           <p>Add Picture Here</p>
                         ) : (
                           <FlexBetween>
-                            <Typography>{values.picture.name}</Typography>
+                            <Typography>{values.picturePath.name}</Typography>
                             <EditOutlinedIcon />
                           </FlexBetween>
                         )}
                       </Box>
                     )}
                   </Dropzone>
-                </Box> */}
+                </Box> }
               </>
             )}
 

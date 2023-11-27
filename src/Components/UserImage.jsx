@@ -7,7 +7,7 @@ const UserImage = ({ image, size = ' 60px' }) => {
         style={{ objectFit: 'cover', borderRadius: '50%' }}
         width={size}
         height={size}
-        // src={``}missing api
+        src={image}
         alt=''
       />
     </Box>
