@@ -3,8 +3,9 @@ import {
   FavoriteBorderOutlined,
   FavoriteOutlined,
   ShareOutlined,
+  DeleteOutline,
 } from '@mui/icons-material';
-import { Box, Divider, Typography, IconButton, useTheme } from '@mui/material';
+import { Box, Divider, Typography, IconButton, useTheme,InputBase,Button } from '@mui/material';
 import FlexBetween from 'Components/FlexBetween';
 import Friend from 'Components/Friend';
 import WidgetWrapper from 'Components/WidgetWrapper';
@@ -24,6 +25,8 @@ const PostWidget = ({
   comments,
 }) => {
   const [isComments, setIsComments] = useState(false);
+  const [comment, setComment] = useState('');
+  const [commentId, setCommentId] = useState('');
   const dispatch = useDispatch;
   const token = useSelector((state) => state.token);
   const loggedInUserId = useSelector((state) => state.user._id);
@@ -46,10 +49,73 @@ const PostWidget = ({
         body: JSON.stringify({ userId: loggedInUserId }),
       }
     );
-    const updatedPost = await response.json();
-    dispatch(setPost({ post: updatedPost }));
+    window.location.reload(false);
+    // const updatedPost = await response.json();
+    // dispatch(setPost({ post: updatedPost }));
+  };
 
+  const deletePost = async () => {
+    const response = await fetch(
+      `https://travelapibackendtest.vercel.app/post/deletePost/${postId}`,
+      {
+        method: 'delete',
+        headers: {
+          Authorization: `${token}`,
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify({ userId: loggedInUserId }),
+      }
+    );
+    if(response.status == "200")
+    {
+    window.location.reload(false);
+    }
+  };
+  const deleteComment = async (event) => {
+    const response = await fetch(
+      `https://travelapibackendtest.vercel.app/post/deleteComment/${commentId}`,
+      {
+        method: 'DELETE',
+        headers: {
+          Authorization: `${token}`,
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify({ userId: loggedInUserId }),
+      }
+    );
+    if(response.status == "200")
+    {
+    window.location.reload(false);
+    }
+  };
+
+  const handleComment = async () => {
+    const formData = new FormData();
+    formData.append('userId', loggedInUserId);
+    formData.append('postId', postId);
+    formData.append('comment',comment);
     
+    let object = {};
+    formData.forEach((value, key) => {
+      object[key] = value;
+    });
+    let data = JSON.stringify(object);
+
+    const response = await fetch(
+      // api
+      // `https://travelapibackendtest.vercel.app/posts`,
+      `https://travelapibackendtest.vercel.app/post/addComment/${postId}`,
+      {
+        method: 'POST',
+        headers: { Authorization: `${token}` },
+        body: data,
+      }
+    );
+    setComment('');
+    if(response.status == "200")
+    {
+    window.location.reload(false);
+    }
   };
 
   return (
@@ -86,30 +152,78 @@ const PostWidget = ({
           </FlexBetween>
 
           <FlexBetween gap='0.3rem'>
+            <IconButton onClick={deletePost}>
+            <DeleteOutline />
+            </IconButton>
+          </FlexBetween>
+
+          
+
+          <FlexBetween gap='0.3rem'>
             <IconButton onClick={() => setIsComments(!isComments)}>
               <ChatBubbleOutlineOutlined />
             </IconButton>
             <Typography>{comments.length}</Typography>
           </FlexBetween>
-        </FlexBetween>
 
+        </FlexBetween>
+        
+          
         <IconButton>
           <ShareOutlined />
         </IconButton>
       </FlexBetween>
+      <FlexBetween gap='1.5rem'>
+        <InputBase
+          placeholder="What's on your mind..."
+          onChange={(e) => setComment(e.target.value)}
+          value={comment}
+          sx={{
+            width: '100%',
+            backgroundColor: palette.neutral.light,
+            borderRadius: '2rem',
+            padding: '1rem 2rem',
+          }}
+        />
+          <Button
+          disabled={!comment}
+          onClick={handleComment}
+          sx={{
+            color: palette.background.alt,
+            backgroundColor: palette.primary.main,
+            borderRadius: '3rem',
+          }}
+        >
+          SEND
+        </Button>
+      </FlexBetween>
+
       {isComments && (
         <Box mt='0.5rem'>
           {comments.map((comment, i) => (
             <Box key={`${name}-${i}`}>
               <Divider />
               <Typography sx={{ color: main, m: '0.5rem 0', pl: '1rem' }}>
-                {comment}
+                {comment.userName}
               </Typography>
+              <Typography sx={{ color: main, m: '0.5rem 0', pl: '1rem' }}>
+                {comment.comment}
+              </Typography>
+              <Typography sx={{ color: main, m: '0.5rem 0', pl: '1rem' }}>
+                {comment.Date}
+              </Typography>
+
+              <FlexBetween gap='0.3rem'>
+              <IconButton onClick={deleteComment}>
+              <DeleteOutline />
+              </IconButton>
+            </FlexBetween>
             </Box>
           ))}
           <Divider />
         </Box>
       )}
+
     </WidgetWrapper>
   );
 };

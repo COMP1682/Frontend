@@ -61,6 +61,10 @@ const Form = () => {
   const register = async (values, onSubmitProps) => {
 
     const imageFromData = new FormData();
+    if(values.picturePath == null || values.picturePath == "")
+    {
+      values.picturePath = "https://res.cloudinary.com/dejsaxkf2/image/upload/v1701089695/fa6051d72b821cb48a8cc71d3481dfef_vsg0w4.jpg";
+    }
     imageFromData.append("file",values.picturePath);
     imageFromData.append("upload_preset","vwbduorq");
   
