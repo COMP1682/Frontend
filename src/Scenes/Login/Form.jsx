@@ -92,7 +92,7 @@ const Form = () => {
 
     const saveUserResponse = await fetch(
       // wait api
-      'https://travel-api-nu.vercel.app/users/createUser',
+      'https://travelapibackendtest.vercel.app/users/createUser',
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -111,7 +111,7 @@ const Form = () => {
   const login = async (values, onSubmitProps) => {
     const loggedInResponse = await fetch(
       // wait api
-      'https://travel-api-nu.vercel.app/auth/login',
+      'https://travelapibackendtest.vercel.app/auth/login',
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

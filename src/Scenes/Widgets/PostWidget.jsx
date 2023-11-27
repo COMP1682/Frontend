@@ -36,7 +36,7 @@ const PostWidget = ({
 
   const patchLike = async () => {
     const response = await fetch(
-      `http://travel-api-nu.vercel.app/post/likePost/${postId}`,
+      `https://travelapibackendtest.vercel.app/post/likePost/${postId}`,
       {
         method: 'PATCH',
         headers: {

@@ -24,8 +24,8 @@ const UserWidget = ({ userId, picturePath }) => {
   const getUser = async () => {
     const response = await fetch(
       //api
-      // `http://travel-api-nu.vercel.app/users/${userId}`,
-      `http://travel-api-nu.vercel.app/users/getUser/${userId}`,
+      // `https://travelapibackendtest.vercel.app/users/${userId}`,
+      `https://travelapibackendtest.vercel.app/users/getUser/${userId}`,
       {
         method: 'GET',
         headers: { Authorization: `${token}` },

@@ -16,7 +16,7 @@ const Profile = () => {
   const getUser = async () => {
     const response = await fetch(
       // api
-      `http://travel-api-nu.vercel.app/users/getUser/:id}`,
+      `https://travelapibackendtest.vercel.app/users/getUser/:id}`,
       {
         method: 'GET',
         headers: { Auuthorization: `${token}` },

@@ -29,7 +29,7 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
 
   const patchFriend = async () => {
     const response = await fetch(
-      `http://travel-api-nu.vercel.app/users/addRemoveFriend/${_id}/${friendId}`,
+      `https://travelapibackendtest.vercel.app/users/addRemoveFriend/${_id}/${friendId}`,
       {
         method: 'PATCH',
         headers: {
