@@ -7,6 +7,7 @@ import { themeSettings } from 'Theme';
 import Home from 'Scenes/Home/Home';
 import Login from 'Scenes/Login/Login';
 import Profile from 'Scenes/Profile/Profile';
+import Chat from 'Scenes/Chat/Chat';
 
 function App() {
   const mode = useSelector((state) => state.mode);
@@ -27,6 +28,10 @@ function App() {
             <Route
               path='/profile/:userId'
               element={isAuth ? <Profile /> : <Navigate to='/' />}
+            />
+            <Route
+              path='/chat'
+              element={isAuth ? <Chat /> : <Navigate to='/' />}
             />
           </Routes>
         </ThemeProvider>
