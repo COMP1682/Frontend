@@ -20,7 +20,7 @@ const AdvertWidget = () => {
         width='100%'
         height='auto'
         alt='advert'
-        // src='http://localhost:3001/assets/info4.jpeg'
+        // src='travel-api-nu.vercel.app/assets/info4.jpeg'
         src=''
         style={{ borderRadius: '.75rem', margin: '.75rem 0' }}
       />

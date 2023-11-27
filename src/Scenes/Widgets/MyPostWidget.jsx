@@ -63,8 +63,8 @@ const MyPostWidget = ({ picturePath }) => {
 
     const response = await fetch(
       // api
-      // `http://localhost:3001/posts`,
-      `http://localhost:3001/post/createPost/${_id}`,
+      // `http://travel-api-nu.vercel.app/posts`,
+      `http://travel-api-nu.vercel.app/post/createPost/${_id}`,
       {
         method: 'POST',
         headers: { Authorization: `${token}` },

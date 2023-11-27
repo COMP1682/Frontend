@@ -11,7 +11,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
   const getPosts = async () => {
     const response = await fetch(
       // api
-      `http://localhost:3001/post/getPost/`,
+      `http://travel-api-nu.vercel.app/post/getPost/`,
       {
         method: 'GET',
         headers: { Authorization: `${token}` },
@@ -24,7 +24,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
   const getUserPosts = async () => {
     const response = await fetch(
       // api
-      `http://localhost:3001/post/getUserPosts/${userId}`,
+      `http://travel-api-nu.vercel.app/post/getUserPosts/${userId}`,
       {
         method: 'GET',
         headers: { Authorization: `${token}` },

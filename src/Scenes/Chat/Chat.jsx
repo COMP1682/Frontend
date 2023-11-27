@@ -1,7 +1,7 @@
 // import React, { useState, useEffect } from 'react';
 // import io from 'socket.io-client';
 
-// const socket = io('http://localhost:3001');
+// const socket = io('http://travel-api-nu.vercel.app');
 
 // function Chat({ socket, username, room }) {
 //     const [messages, setMessages] = useState([]);
