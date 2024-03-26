@@ -7,24 +7,54 @@ const PostsWidget = ({ userId, isProfile = false }) => {
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts);
   const token = useSelector((state) => state.token);
+  const loggedInUserId = useSelector((state) => state.user._id);
 
   const getPosts = async () => {
     const response = await fetch(
       // api
-      `https://travelapibackendtest.vercel.app/post/getPost/`,
+      `http://localhost:3001/post/getPost/`,
       {
         method: 'GET',
         headers: { Authorization: `${token}` },
       }
     );
     const data = await response.json();
+    if(data != null)
+    {
+    for(let post of data)
+    {
+    const responseComment = await fetch(
+      `http://localhost:3001/post/getComments/${post._id}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: `${token}`,
+          'Content-type': 'application/json',
+        },
+      }
+    );
+    if(responseComment.status == "200")
+    {
+    const dataComment = await responseComment.json();
+    for(let comment of dataComment)
+    {
+      if(loggedInUserId === comment.userId)
+      {
+        comment.isValidUserComment = true;
+      }
+    }
+   
+    post.comments= [].concat(dataComment);
+    }
+    }
+  }
     dispatch(setPosts({ posts: data }));
   };
 
   const getUserPosts = async () => {
     const response = await fetch(
       // api
-      `https://travelapibackendtest.vercel.app/post/getUserPosts/${userId}`,
+      `http://localhost:3001/post/getUserPosts/${userId}`,
       {
         method: 'GET',
         headers: { Authorization: `${token}` },
@@ -33,6 +63,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
     const data = await response.json();
     dispatch(setPosts({ posts: data }));
   };
+  console.log(posts);
 
   useEffect(() => {
     if (isProfile) {

@@ -24,15 +24,16 @@ const UserWidget = ({ userId, picturePath }) => {
   const getUser = async () => {
     const response = await fetch(
       //api
-      // `https://travelapibackendtest.vercel.app/users/${userId}`,
-      `https://travelapibackendtest.vercel.app/users/getUser/${userId}`,
+      // `http://localhost:3001/users/${userId}`,
+      `http://localhost:3001/users/getUser/${userId}`,
       {
         method: 'GET',
         headers: { Authorization: `${token}` },
       }
     );
     const data = await response.json();
-    setUser(data);
+    console.log(data.data);
+    setUser(data.data);
   };
 
   useEffect(() => {
@@ -44,7 +45,7 @@ const UserWidget = ({ userId, picturePath }) => {
   }
 
   const {
-    firstName,
+    firstName = user.firstName,
     lastName,
     location,
     occupation,
@@ -77,7 +78,7 @@ const UserWidget = ({ userId, picturePath }) => {
             >
               {firstName} {lastName}
             </Typography>
-            <Typography color={medium}>{friends?.length} friends</Typography>
+            <Typography color={medium}>{friends?.length}</Typography>
           </Box>
         </FlexBetween>
         <ManageAccountsOutlined />

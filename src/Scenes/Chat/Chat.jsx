@@ -11,7 +11,7 @@ import FriendListWidget from 'Scenes/Widgets/FriendListWidget';
 
 // import io from 'socket.io-client';
 
-// const socket = io.connect('http://localhost:3000/',{
+// const socket = io.connect('http://http://localhost:3001/',{
 //     transports: ['websocket'],
 //     upgrade: false
 //     });
@@ -43,8 +43,8 @@ import FriendListWidget from 'Scenes/Widgets/FriendListWidget';
     let data = JSON.stringify(object);
 
     const send = await fetch(
-        //`https://travelapibackendtest.vercel.app/chat/chat/${_id}/`,
-        `https://travelapibackendtest.vercel.app/chat/${_id}/`,
+        //`http://localhost:3001/chat/chat/${_id}/`,
+        `http://localhost:3001/chat/${_id}/`,
         {
           method: 'POST',
           headers: {
@@ -68,7 +68,7 @@ import FriendListWidget from 'Scenes/Widgets/FriendListWidget';
 
 
 
-    const { data, error, isLoading } = useSWR(`https://travelapibackendtest.vercel.app/chat/${roomId}/`, fetcher, { refreshInterval: 1000 })
+    const { data, error, isLoading } = useSWR(`http://localhost:3001/chat/${roomId}/`, fetcher, { refreshInterval: 1000 })
 
 
   return (

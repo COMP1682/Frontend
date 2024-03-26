@@ -27,11 +27,29 @@ const PostWidget = ({
   const [isComments, setIsComments] = useState(false);
   const [comment, setComment] = useState('');
   const [commentId, setCommentId] = useState('');
+  
   const dispatch = useDispatch;
   const token = useSelector((state) => state.token);
   const loggedInUserId = useSelector((state) => state.user._id);
   const isLiked = Boolean(likes[loggedInUserId]);
   const likeCount = Object.keys(likes).length;
+  let isValidUser = false;
+
+  if(loggedInUserId === postUserId)
+  {
+    isValidUser = true;
+  }
+
+    // for(let subComment of comments)
+    // {
+    //   if(loggedInUserId === subComment.userId)
+    //   {
+    //     Object.assign(subComment, {isValidUserComment:true});
+    //     console.log(subComment);
+    //   }
+    // }
+
+
 
   const { palette } = useTheme();
   const main = palette.neutral.main;
@@ -39,7 +57,7 @@ const PostWidget = ({
 
   const patchLike = async () => {
     const response = await fetch(
-      `https://travelapibackendtest.vercel.app/post/likePost/${postId}`,
+      `http://localhost:3001/post/likePost/${postId}`,
       {
         method: 'PATCH',
         headers: {
@@ -56,7 +74,7 @@ const PostWidget = ({
 
   const deletePost = async () => {
     const response = await fetch(
-      `https://travelapibackendtest.vercel.app/post/deletePost/${postId}`,
+      `http://localhost:3001/post/deletePost/${postId}`,
       {
         method: 'delete',
         headers: {
@@ -71,9 +89,10 @@ const PostWidget = ({
     window.location.reload(false);
     }
   };
-  const deleteComment = async (event) => {
+  const deleteComment = async (commentid, event) => {
+    console.log("commentId",commentid);
     const response = await fetch(
-      `https://travelapibackendtest.vercel.app/post/deleteComment/${commentId}`,
+      `http://localhost:3001/post/deleteComment/${commentid}`,
       {
         method: 'DELETE',
         headers: {
@@ -103,8 +122,8 @@ const PostWidget = ({
 
     const response = await fetch(
       // api
-      // `https://travelapibackendtest.vercel.app/posts`,
-      `https://travelapibackendtest.vercel.app/post/addComment/${postId}`,
+      // `http://localhost:3001/posts`,
+      `http://localhost:3001/post/addComment/${postId}`,
       {
         method: 'POST',
         headers: { Authorization: `${token}` },
@@ -150,12 +169,15 @@ const PostWidget = ({
             </IconButton>
             <Typography>{likeCount}</Typography>
           </FlexBetween>
-
+          
+          {isValidUser && (
           <FlexBetween gap='0.3rem'>
             <IconButton onClick={deletePost}>
             <DeleteOutline />
             </IconButton>
           </FlexBetween>
+          )}   
+          
 
           
 
@@ -213,11 +235,12 @@ const PostWidget = ({
                 {comment.Date}
               </Typography>
 
-              <FlexBetween gap='0.3rem'>
+              {comment?.isValidUserComment && (<FlexBetween gap='0.3rem'>
               <IconButton onClick={deleteComment}>
               <DeleteOutline />
               </IconButton>
-            </FlexBetween>
+            </FlexBetween>)}
+              
             </Box>
           ))}
           <Divider />

@@ -15,7 +15,7 @@ const FriendListWidget = ({ userId }) => {
   const getFriends = async () => {
     const response = await fetch(
       // api
-      `https://travelapibackendtest.vercel.app/users/getUserFriends/${userId}`,
+      `http://localhost:3001/users/getUserFriends/${userId}`,
       {
         method: 'GET',
         headers: {
