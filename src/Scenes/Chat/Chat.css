@@ -1,0 +1,32 @@
+.media-chat.media-chat-reverse {
+  padding-right: 12px;
+  padding-left: 64px;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+  flex-direction: row-reverse;
+  display: flex;
+  font-weight: bold;
+}
+
+.media-chat.media-chat-start {
+  padding-right: 12px;
+  padding-left: 64px;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+  align-items: flex-start;
+  display: flex;
+  font-weight: bold;
+}
+
+.chat-page {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: space-around;
+}
+
+/* .Chat {
+  height: 100vh;
+  overflow: hidden;
+} */

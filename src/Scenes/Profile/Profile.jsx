@@ -16,15 +16,16 @@ const Profile = () => {
   const getUser = async () => {
     const response = await fetch(
       // api
-      `http://localhost:3001/users/getUser/:id}`,
+      `http://localhost:3001/users/getUser/${userId}`,
       {
         method: 'GET',
-        headers: { Auuthorization: `${token}` },
+        headers: { Authorization: `${token}` },
       }
     );
     const data = await response.json();
     setUser(data);
   };
+  console.log(token);
 
   useEffect(() => {
     getUser();

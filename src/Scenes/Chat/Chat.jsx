@@ -1,13 +1,14 @@
-import React, {useState,useMemo} from 'react';
-import  {useEffect,useSelector } from 'react-redux';
-import {useLocation} from 'react-router-dom';
-import {useQuery} from 'react-query';
-import useSWR from "swr";
-import axios from "axios";
+import React, { useState, useMemo } from 'react';
+import { useEffect, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { useQuery } from 'react-query';
+import useSWR from 'swr';
+import axios from 'axios';
 import Navbar from 'Scenes/Navbar/Navbar';
 import FlexBetween from 'Components/FlexBetween';
-import { Box,useTheme,InputBase,Button } from '@mui/material';
+import { Box, useTheme, InputBase, Button } from '@mui/material';
 import FriendListWidget from 'Scenes/Widgets/FriendListWidget';
+import './Chat.css';
 
 // import io from 'socket.io-client';
 
@@ -16,21 +17,20 @@ import FriendListWidget from 'Scenes/Widgets/FriendListWidget';
 //     upgrade: false
 //     });
 
-  // WebSocket connection setup goes here
-  const Chat = () => {
+// WebSocket connection setup goes here
+const Chat = () => {
+  const { palette } = useTheme();
+  const main = palette.neutral.main;
 
-    const { palette } = useTheme();
-    const main = palette.neutral.main;
-   
-    const { _id } = useSelector((state) => state.user);
-    const token = useSelector((state) => state.token);
-    const friends = useSelector((state) => state.user.friends);
-    const [messageInput, setMessageInput] = useState('');
-    const {state} = useLocation();
-    const { friendId } = state; 
+  const { _id } = useSelector((state) => state.user);
+  const token = useSelector((state) => state.token);
+  const friends = useSelector((state) => state.user.friends);
+  const [messageInput, setMessageInput] = useState('');
+  const { state } = useLocation();
+  const { friendId } = state;
 
-    const messageArray =[];
-    const roomId = _id.concat("-".concat(friendId));
+  const messageArray = [];
+  const roomId = _id.concat('-'.concat(friendId));
   const sendMessage = async () => {
     const formData = new FormData();
     formData.append('friendId', friendId);
@@ -43,76 +43,88 @@ import FriendListWidget from 'Scenes/Widgets/FriendListWidget';
     let data = JSON.stringify(object);
 
     const send = await fetch(
-        //`http://localhost:3001/chat/chat/${_id}/`,
-        `http://localhost:3001/chat/${_id}/`,
-        {
-          method: 'POST',
-          headers: {
-            Authorization: `${token}`,
-            'Content-Type': 'application/json',
-          },
-          body: data,
-        }
-      );
-      setMessageInput('');
+      //`http://localhost:3001/chat/chat/${_id}/`,
+      `http://localhost:3001/chat/${_id}/`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: data,
+      }
+    );
+    setMessageInput('');
   };
   const fetcher = async (url) => {
     const res = await axios.get(url, {
       headers: {
-        "Authorization": `${token}`,
+        Authorization: `${token}`,
         'Content-Type': 'application/json',
       },
     });
     return res.data;
   };
 
-
-
-    const { data, error, isLoading } = useSWR(`http://localhost:3001/chat/${roomId}/`, fetcher, { refreshInterval: 1000 })
-
+  const { data, error, isLoading } = useSWR(
+    `http://localhost:3001/chat/${roomId}/`,
+    fetcher,
+    { refreshInterval: 1000 }
+  );
+  console.log({ data });
 
   return (
-
-    <div className="App">
-      <div className="chat-container">
-      <Navbar/>
-        <div className="Chat">
-            {data ? (
-                data.map((content) => {
-                    return <div> {content.fullName}: {content.content}</div>
-                })
-            ) : (
-                <div>loading</div>
-            )}
+    <>
+        <Navbar />
+      <div className='chat-container'>
+        <div className='Chat'>
+          {data ? (
+            data.map((content) => {
+              if (content.userId === _id) {
+                return (
+                  <div className='media media-chat media-chat-reverse'>
+                    {content.fullName}: {content.content}
+                  </div>
+                );
+              } else {
+                return (
+                  <div className='media media-chat media-chat-start'>
+                    {content.fullName}: {content.content}
+                  </div>
+                );
+              }
+            })
+          ) : (
+            <div>loading</div>
+          )}
         </div>
-      <FlexBetween gap='1.5rem'>
-        <InputBase
-          placeholder="Type your message..."
-          onChange={(e) => setMessageInput(e.target.value)}
-          value={messageInput}
-          sx={{
-            width: '100%',
-            backgroundColor: palette.neutral.light,
-            borderRadius: '2rem',
-            padding: '1rem 2rem',
-          }}
-        />
+        <FlexBetween gap='1.5rem'>
+          <InputBase
+            placeholder='Type your message...'
+            onChange={(e) => setMessageInput(e.target.value)}
+            value={messageInput}
+            sx={{
+              width: '100%',
+              backgroundColor: palette.neutral.light,
+              borderRadius: '2rem',
+              padding: '1rem 2rem',
+            }}
+          />
           <Button
-          onClick={sendMessage}
-          sx={{
-            color: palette.background.alt,
-            backgroundColor: palette.primary.main,
-            borderRadius: '3rem',
-          }}
-        >
-          SEND
-        </Button>
-      </FlexBetween>
-
-            <FriendListWidget userId={_id} />
+            onClick={sendMessage}
+            sx={{
+              color: palette.background.alt,
+              backgroundColor: palette.primary.main,
+              borderRadius: '3rem',
+            }}
+          >
+            SEND
+          </Button>
+        </FlexBetween>
       </div>
-    </div>
+      {/* <FriendListWidget userId={_id} /> */}
+    </>
   );
-}
+};
 
 export default Chat;
