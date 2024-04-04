@@ -27,8 +27,14 @@ import { setPosts } from 'State';
 
 const MyPostWidget = ({ picturePath }) => {
   const dispatch = useDispatch();
+
   const [isImage, setIsImage] = useState(false);
   const [image, setImage] = useState(null);
+
+  const [isVideo, setIsVideo] = useState(false);
+
+  const [isAudio, setIsAudio] = useState(false);
+
   const [post, setPost] = useState('');
   const { palette } = useTheme();
   const { _id } = useSelector((state) => state.user);
@@ -41,20 +47,23 @@ const MyPostWidget = ({ picturePath }) => {
     const formData = new FormData();
     formData.append('userId', _id);
     formData.append('description', post);
-    
-    const imageFromData = new FormData();
-    imageFromData.append("file",image);
-    imageFromData.append("upload_preset","vwbduorq");
 
-    const reponseCloudinary = await fetch(
-      `https://api.cloudinary.com/v1_1/dejsaxkf2/image/upload`,
-      {
-        method: 'POST',
-        body: imageFromData,
-      }
-    )
-    const dataFromCloudinary = await reponseCloudinary.json();
-    formData.append('picturePath', dataFromCloudinary.secure_url);
+    if (image) {
+      const imageFromData = new FormData();
+      imageFromData.append("file", image);
+      imageFromData.append("upload_preset", "vwbduorq");
+
+      const reponseCloudinary = await fetch(
+        `https://api.cloudinary.com/v1_1/dejsaxkf2/auto/upload`,
+        {
+          method: 'POST',
+          body: imageFromData,
+        }
+      )
+      const dataFromCloudinary = await reponseCloudinary.json();
+      formData.append('picturePath', dataFromCloudinary.secure_url);
+    }
+
     let object = {};
     formData.forEach((value, key) => {
       object[key] = value;
@@ -76,6 +85,24 @@ const MyPostWidget = ({ picturePath }) => {
     setImage(null);
     setPost('');
   };
+
+  const handleOnclick = (type) => {
+    if (type === "image") {
+      setIsImage(!isImage);
+      setIsVideo(false);
+      setIsAudio(false);
+    }
+    else if (type === "video") {
+      setIsImage(false);
+      setIsVideo(!isVideo);
+      setIsAudio(false);
+    }
+    else if (type === "audio") {
+      setIsImage(false);
+      setIsVideo(false);
+      setIsAudio(!isAudio);
+    }
+  }
 
   return (
     <WidgetWrapper>
@@ -138,10 +165,100 @@ const MyPostWidget = ({ picturePath }) => {
         </Box>
       )}
 
+      {isVideo && (
+        <Box
+          border={`1px solid ${medium}`}
+          borderRadius='5px'
+          mt='1rem'
+          p='1rem'
+        >
+          <Dropzone
+            acceptedFiles='.mov,.mp4'
+            multiple={false}
+            onDrop={(acceptedFiles) => setImage(acceptedFiles[0])}
+          >
+            {({ getRootProps, getInputProps }) => (
+              <FlexBetween>
+                <Box
+                  {...getRootProps()}
+                  border={`2px dashed ${palette.primary.main}`}
+                  p='1rem'
+                  width='100%'
+                  sx={{ '&:hover': { cursor: 'pointer' } }}
+                >
+                  <input {...getInputProps()} />
+                  {!image ? (
+                    <p>Add Video Here</p>
+                  ) : (
+                    <FlexBetween>
+                      <Typography>{image.name}</Typography>
+                      <EditOutlined />
+                    </FlexBetween>
+                  )}
+                </Box>
+                {image && (
+                  <IconButton
+                    onClick={() => setImage(null)}
+                    sx={{ width: '15%' }}
+                  >
+                    <DeleteOutlined />
+                  </IconButton>
+                )}
+              </FlexBetween>
+            )}
+          </Dropzone>
+        </Box>
+      )}
+
+      {isAudio && (
+        <Box
+          border={`1px solid ${medium}`}
+          borderRadius='5px'
+          mt='1rem'
+          p='1rem'
+        >
+          <Dropzone
+            acceptedFiles='.mp3'
+            multiple={false}
+            onDrop={(acceptedFiles) => setImage(acceptedFiles[0])}
+          >
+            {({ getRootProps, getInputProps }) => (
+              <FlexBetween>
+                <Box
+                  {...getRootProps()}
+                  border={`2px dashed ${palette.primary.main}`}
+                  p='1rem'
+                  width='100%'
+                  sx={{ '&:hover': { cursor: 'pointer' } }}
+                >
+                  <input {...getInputProps()} />
+                  {!image ? (
+                    <p>Add Audio Here</p>
+                  ) : (
+                    <FlexBetween>
+                      <Typography>{image.name}</Typography>
+                      <EditOutlined />
+                    </FlexBetween>
+                  )}
+                </Box>
+                {image && (
+                  <IconButton
+                    onClick={() => setImage(null)}
+                    sx={{ width: '15%' }}
+                  >
+                    <DeleteOutlined />
+                  </IconButton>
+                )}
+              </FlexBetween>
+            )}
+          </Dropzone>
+        </Box>
+      )}
+
       <Divider sx={{ margin: '1.25rem 0' }} />
 
       <FlexBetween>
-        <FlexBetween gap='0.25rem' onClick={() => setIsImage(!isImage)}>
+        <FlexBetween gap='0.25rem' onClick={() => handleOnclick("image")}>
           <ImageOutlined sx={{ color: mediumMain }} />
           <Typography
             color={mediumMain}
@@ -151,7 +268,25 @@ const MyPostWidget = ({ picturePath }) => {
           </Typography>
         </FlexBetween>
 
-        {isNonMobileScreens ? (
+        <FlexBetween gap='0.25rem' onClick={() => handleOnclick("video")}>
+          <GifBoxOutlined sx={{ color: mediumMain }} />
+          <Typography color={mediumMain}
+            sx={{ '&:hover': { cursor: 'pointer', color: medium } }}
+          >Video</Typography>
+        </FlexBetween>
+
+        {/* <FlexBetween gap='0.25rem'>
+          <AttachFileOutlined sx={{ color: mediumMain }} />
+          <Typography color={mediumMain}>Attachment</Typography>
+        </FlexBetween> */}
+
+        <FlexBetween gap='0.25rem' onClick={() => handleOnclick("audio")}>
+          <MicOutlined sx={{ color: mediumMain }} />
+          <Typography sx={{ '&:hover': { cursor: 'pointer', color: medium } }}
+          >Audio</Typography>
+        </FlexBetween>
+
+        {/* {isNonMobileScreens ? (
           <>
             <FlexBetween gap='0.25rem'>
               <GifBoxOutlined sx={{ color: mediumMain }} />
@@ -172,7 +307,7 @@ const MyPostWidget = ({ picturePath }) => {
           <FlexBetween gap='0.25rem'>
             <MoreHorizOutlined sx={{ color: mediumMain }} />
           </FlexBetween>
-        )}
+        )} */}
 
         <Button
           disabled={!post}
