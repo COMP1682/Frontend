@@ -236,7 +236,7 @@ const PostWidget = ({
               </Typography>
 
               {comment?.isValidUserComment && (<FlexBetween gap='0.3rem'>
-              <IconButton onClick={deleteComment}>
+              <IconButton onClick={() => deleteComment(comment._id)}>
               <DeleteOutline />
               </IconButton>
             </FlexBetween>)}
