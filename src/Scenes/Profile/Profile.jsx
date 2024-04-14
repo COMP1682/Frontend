@@ -25,7 +25,7 @@ const Profile = () => {
     const data = await response.json();
     setUser(data);
   };
-  console.log(token);
+
 
   useEffect(() => {
     getUser();

@@ -1,10 +1,11 @@
 import { PersonAddOutlined, PersonRemoveOutlined } from '@mui/icons-material';
 import { Box, IconButton, Typography, useTheme } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { setFriends } from 'State';
 import FlexBetween from './FlexBetween';
 import UserImage from './UserImage';
+import { Fragment, useEffect, useState } from 'react';
 // import { array } from 'yup';
 
 const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
@@ -13,6 +14,9 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
   const { _id } = useSelector((state) => state.user);
   const token = useSelector((state) => state.token);
   const friends = useSelector((state) => state.user.friends);
+  const { userId } = useParams();
+  const [flagMine, setFlagMine] = useState(false);
+  const [isFriend, setIsFriend] = useState(false);
 
   const { palette } = useTheme();
   const primaryLight = palette.primary.light;
@@ -20,12 +24,21 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
   const main = palette.neutral.main;
   const medium = palette.neutral.medium;
 
-  var isFriend;
-  if (friends != null && Array.isArray(friends)) {
-    isFriend = friends.find((friend) => friend._id === friendId);
-  } else {
-    isFriend = false;
-  }
+  useEffect(() => {
+    if (friends != null && Array.isArray(friends)) {
+      setIsFriend(friends.find((friend) => friend._id === friendId));
+    } else {
+      setFriends(false);
+    }
+  }, [isFriend]);
+
+  useEffect(() => {
+    if (userId === _id) {
+      setFlagMine(true);
+    } else {
+      setFlagMine(false);
+    }
+  }, [userId]);
 
   const patchFriend = async () => {
     const response = await fetch(
@@ -42,13 +55,14 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
     dispatch(setFriends({ friends: data }));
   };
 
+  console.log({ isFriend });
   return (
     <FlexBetween>
       <FlexBetween gap='1rem'>
         <UserImage image={userPicturePath} size='55px' />
         <Box
           onClick={() => {
-            navigate('/chat',{state:{friendId:friendId}});
+            navigate('/chat', { state: { friendId: friendId } });
             navigate(0);
           }}
         >
@@ -70,16 +84,19 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
           </Typography>
         </Box>
       </FlexBetween>
-      <IconButton
-        onClick={() => patchFriend()}
-        sx={{ backgroundColor: primaryLight, p: '0.6rem' }}
-      >
-        {isFriend ? (
-          <PersonRemoveOutlined sx={{ color: primaryDark }} />
-        ) : (
-          <PersonAddOutlined sx={{ color: primaryDark }} />
-        )}
-      </IconButton>
+
+      {
+        <IconButton
+          onClick={() => patchFriend()}
+          sx={{ backgroundColor: primaryLight, p: '0.6rem' }}
+        >
+          {!isFriend && flagMine ? (
+            <PersonRemoveOutlined sx={{ color: primaryDark }} />
+          ) : (
+            <PersonAddOutlined sx={{ color: primaryDark }} />
+          )}
+        </IconButton>
+      }
     </FlexBetween>
   );
 };

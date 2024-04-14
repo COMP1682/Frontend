@@ -12,6 +12,8 @@ const FriendListWidget = ({ userId }) => {
   // const friends = useSelector((state) => state.user.friends);
   const [friend, setFriend] = useState([]);
   // let friends = [];
+  const { _id } = useSelector((state) => state.user);
+
   const getFriends = async () => {
     const response = await fetch(
       // api
@@ -44,15 +46,17 @@ const FriendListWidget = ({ userId }) => {
           Friend List
         </Typography>
         <Box display='flex' flexDirection='column' gap='1.5rem'>
-          {friend.map((friend) => (
-            <Friend
-              key={friend._id}
-              friendId={friend._id}
-              name={`${friend.firstName} ${friend.lastName}`}
-              subtitle={friend.occupation}
-              userPicturePath={friend.picturePath}
-            />
-          ))}
+          {friend
+            .filter((item) => item._id !== _id)
+            .map((friend) => (
+              <Friend
+                key={friend._id}
+                friendId={friend._id}
+                name={`${friend.firstName} ${friend.lastName}`}
+                subtitle={friend.occupation}
+                userPicturePath={friend.picturePath}
+              />
+            ))}
         </Box>
       </WidgetWrapper>
     )

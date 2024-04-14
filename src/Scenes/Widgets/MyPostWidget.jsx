@@ -50,8 +50,8 @@ const MyPostWidget = ({ picturePath }) => {
 
     if (image) {
       const imageFromData = new FormData();
-      imageFromData.append("file", image);
-      imageFromData.append("upload_preset", "vwbduorq");
+      imageFromData.append('file', image);
+      imageFromData.append('upload_preset', 'vwbduorq');
 
       const reponseCloudinary = await fetch(
         `https://api.cloudinary.com/v1_1/dejsaxkf2/auto/upload`,
@@ -59,7 +59,7 @@ const MyPostWidget = ({ picturePath }) => {
           method: 'POST',
           body: imageFromData,
         }
-      )
+      );
       const dataFromCloudinary = await reponseCloudinary.json();
       formData.append('picturePath', dataFromCloudinary.secure_url);
     }
@@ -87,22 +87,20 @@ const MyPostWidget = ({ picturePath }) => {
   };
 
   const handleOnclick = (type) => {
-    if (type === "image") {
+    if (type === 'image') {
       setIsImage(!isImage);
       setIsVideo(false);
       setIsAudio(false);
-    }
-    else if (type === "video") {
+    } else if (type === 'video') {
       setIsImage(false);
       setIsVideo(!isVideo);
       setIsAudio(false);
-    }
-    else if (type === "audio") {
+    } else if (type === 'audio') {
       setIsImage(false);
       setIsVideo(false);
       setIsAudio(!isAudio);
     }
-  }
+  };
 
   return (
     <WidgetWrapper>
@@ -258,7 +256,7 @@ const MyPostWidget = ({ picturePath }) => {
       <Divider sx={{ margin: '1.25rem 0' }} />
 
       <FlexBetween>
-        <FlexBetween gap='0.25rem' onClick={() => handleOnclick("image")}>
+        <FlexBetween gap='0.25rem' onClick={() => handleOnclick('image')}>
           <ImageOutlined sx={{ color: mediumMain }} />
           <Typography
             color={mediumMain}
@@ -268,11 +266,14 @@ const MyPostWidget = ({ picturePath }) => {
           </Typography>
         </FlexBetween>
 
-        <FlexBetween gap='0.25rem' onClick={() => handleOnclick("video")}>
+        <FlexBetween gap='0.25rem' onClick={() => handleOnclick('video')}>
           <GifBoxOutlined sx={{ color: mediumMain }} />
-          <Typography color={mediumMain}
+          <Typography
+            color={mediumMain}
             sx={{ '&:hover': { cursor: 'pointer', color: medium } }}
-          >Video</Typography>
+          >
+            Video
+          </Typography>
         </FlexBetween>
 
         {/* <FlexBetween gap='0.25rem'>
@@ -280,13 +281,14 @@ const MyPostWidget = ({ picturePath }) => {
           <Typography color={mediumMain}>Attachment</Typography>
         </FlexBetween> */}
 
-        <FlexBetween gap='0.25rem' onClick={() => handleOnclick("audio")}>
+        <FlexBetween gap='0.25rem' onClick={() => handleOnclick('audio')}>
           <MicOutlined sx={{ color: mediumMain }} />
-          <Typography sx={{ '&:hover': { cursor: 'pointer', color: medium } }}
-          >Audio</Typography>
+          <Typography sx={{ '&:hover': { cursor: 'pointer', color: medium } }}>
+            Audio
+          </Typography>
         </FlexBetween>
 
-        {/* {isNonMobileScreens ? (
+        {isNonMobileScreens ? (
           <>
             <FlexBetween gap='0.25rem'>
               <GifBoxOutlined sx={{ color: mediumMain }} />
@@ -307,7 +309,7 @@ const MyPostWidget = ({ picturePath }) => {
           <FlexBetween gap='0.25rem'>
             <MoreHorizOutlined sx={{ color: mediumMain }} />
           </FlexBetween>
-        )} */}
+        )}
 
         <Button
           disabled={!post}

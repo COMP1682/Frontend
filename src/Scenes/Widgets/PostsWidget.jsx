@@ -19,35 +19,30 @@ const PostsWidget = ({ userId, isProfile = false }) => {
       }
     );
     const data = await response.json();
-    if(data != null)
-    {
-    for(let post of data)
-    {
-    const responseComment = await fetch(
-      `http://localhost:3001/post/getComments/${post._id}`,
-      {
-        method: 'GET',
-        headers: {
-          Authorization: `${token}`,
-          'Content-type': 'application/json',
-        },
+    if (data != null) {
+      for (let post of data) {
+        const responseComment = await fetch(
+          `http://localhost:3001/post/getComments/${post._id}`,
+          {
+            method: 'GET',
+            headers: {
+              Authorization: `${token}`,
+              'Content-type': 'application/json',
+            },
+          }
+        );
+        if (responseComment.status == '200') {
+          const dataComment = await responseComment.json();
+          for (let comment of dataComment) {
+            if (loggedInUserId === comment.userId) {
+              comment.isValidUserComment = true;
+            }
+          }
+
+          post.comments = [].concat(dataComment);
+        }
       }
-    );
-    if(responseComment.status == "200")
-    {
-    const dataComment = await responseComment.json();
-    for(let comment of dataComment)
-    {
-      if(loggedInUserId === comment.userId)
-      {
-        comment.isValidUserComment = true;
-      }
     }
-   
-    post.comments= [].concat(dataComment);
-    }
-    }
-  }
     dispatch(setPosts({ posts: data }));
   };
 
@@ -63,7 +58,6 @@ const PostsWidget = ({ userId, isProfile = false }) => {
     const data = await response.json();
     dispatch(setPosts({ posts: data }));
   };
-  console.log(posts);
 
   useEffect(() => {
     if (isProfile) {
@@ -71,11 +65,14 @@ const PostsWidget = ({ userId, isProfile = false }) => {
     } else {
       getPosts();
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [posts]); // eslint-disable-line react-hooks/exhaustive-deps
+  let newPost = posts
+    ?.filter((item) => item.userId === loggedInUserId)
+    .reverse();
 
-  return posts ? (
+  return newPost ? (
     <>
-      {posts?.map(
+      {newPost?.map(
         ({
           _id,
           userId,
