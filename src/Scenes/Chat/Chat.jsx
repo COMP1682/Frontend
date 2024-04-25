@@ -74,7 +74,7 @@ const Chat = () => {
 
   return (
     <>
-        <Navbar />
+      <Navbar />
       <div className='chat-container'>
         <div className='Chat'>
           {data ? (
@@ -82,13 +82,19 @@ const Chat = () => {
               if (content.userId === _id) {
                 return (
                   <div className='media media-chat media-chat-reverse'>
-                    {content.fullName}: {content.content}
+                    <div className='chat-reverse'>{content.content}</div>
+                    <p>
+                      {content.fullName} {' : '}
+                    </p>
                   </div>
                 );
               } else {
                 return (
                   <div className='media media-chat media-chat-start'>
-                    {content.fullName}: {content.content}
+                    <p>
+                      {content.fullName} {' : '}
+                    </p>
+                    <div className='chat-start'>{content.content}</div>
                   </div>
                 );
               }
@@ -97,30 +103,30 @@ const Chat = () => {
             <div>loading</div>
           )}
         </div>
-        <FlexBetween gap='1.5rem'>
-          <InputBase
-            placeholder='Type your message...'
-            onChange={(e) => setMessageInput(e.target.value)}
-            value={messageInput}
-            sx={{
-              width: '100%',
-              backgroundColor: palette.neutral.light,
-              borderRadius: '2rem',
-              padding: '1rem 2rem',
-            }}
-          />
-          <Button
-            onClick={sendMessage}
-            sx={{
-              color: palette.background.alt,
-              backgroundColor: palette.primary.main,
-              borderRadius: '3rem',
-            }}
-          >
-            SEND
-          </Button>
-        </FlexBetween>
       </div>
+      <FlexBetween gap='1.5rem' className='input-chat'>
+        <InputBase
+          placeholder='Type your message...'
+          onChange={(e) => setMessageInput(e.target.value)}
+          value={messageInput}
+          sx={{
+            width: '100%',
+            backgroundColor: palette.neutral.light,
+            borderRadius: '2rem',
+            padding: '1rem 2rem',
+          }}
+        />
+        <Button
+          onClick={sendMessage}
+          sx={{
+            color: palette.background.alt,
+            backgroundColor: palette.primary.main,
+            borderRadius: '3rem',
+          }}
+        >
+          SEND
+        </Button>
+      </FlexBetween>
       {/* <FriendListWidget userId={_id} /> */}
     </>
   );
