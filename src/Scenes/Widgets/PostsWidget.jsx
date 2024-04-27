@@ -8,7 +8,12 @@ const PostsWidget = ({ userId, isProfile = false }) => {
   const posts = useSelector((state) => state.posts);
   const token = useSelector((state) => state.token);
   const loggedInUserId = useSelector((state) => state.user._id);
+  const [data, setData] = useState([]);
+  const [handleCmtFlg, setHandleCmtFlg] = useState(false);
 
+  const handleCmt = () => {
+    setHandleCmtFlg(!handleCmt);
+  };
   const getPosts = async () => {
     const response = await fetch(
       // api
@@ -19,6 +24,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
       }
     );
     const data = await response.json();
+
     if (data != null) {
       for (let post of data) {
         const responseComment = await fetch(
@@ -31,19 +37,20 @@ const PostsWidget = ({ userId, isProfile = false }) => {
             },
           }
         );
-        if (responseComment.status == '200') {
+
+        if (responseComment.status == 200) {
           const dataComment = await responseComment.json();
           for (let comment of dataComment) {
             if (loggedInUserId === comment.userId) {
               comment.isValidUserComment = true;
             }
           }
-
           post.comments = [].concat(dataComment);
         }
       }
     }
     dispatch(setPosts({ posts: data }));
+    setData(data);
   };
 
   const getUserPosts = async () => {
@@ -70,7 +77,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
     ?.filter((item) => item.userId === loggedInUserId)
     .reverse();
 
-  return newPost ? (
+  return isProfile ? (
     <>
       {newPost?.map(
         ({
@@ -96,12 +103,40 @@ const PostsWidget = ({ userId, isProfile = false }) => {
             userPicturePath={userPicturePath}
             likes={likes}
             comments={comments}
+            handleCmt={handleCmt}
           />
         )
       )}
     </>
   ) : (
-    <></>
+    posts?.map(
+      ({
+        _id,
+        userId,
+        firstName,
+        lastName,
+        description,
+        location,
+        picturePath,
+        userPicturePath,
+        likes,
+        comments,
+      }) => (
+        <PostWidget
+          key={_id}
+          postId={_id}
+          postUserId={userId}
+          name={`${firstName} ${lastName}`}
+          description={description}
+          location={location}
+          picturePath={picturePath}
+          userPicturePath={userPicturePath}
+          likes={likes}
+          comments={comments}
+          handleCmt={handleCmt}
+        />
+      )
+    )
   );
 };
 

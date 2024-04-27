@@ -8,7 +8,7 @@ import UserImage from './UserImage';
 import { Fragment, useEffect, useState } from 'react';
 // import { array } from 'yup';
 
-const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
+const FriendofProfile = ({ friendId, name, subtitle, userPicturePath }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { _id } = useSelector((state) => state.user);
@@ -84,7 +84,7 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
         </Box>
       </FlexBetween>
 
-      <IconButton
+      {/* <IconButton
         onClick={() => patchFriend()}
         sx={{ backgroundColor: primaryLight, p: '0.6rem' }}
       >
@@ -93,9 +93,9 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
         ) : (
           <PersonAddOutlined sx={{ color: primaryDark }} />
         )}
-      </IconButton>
+      </IconButton> */}
     </FlexBetween>
   );
 };
 
-export default Friend;
+export default FriendofProfile;
