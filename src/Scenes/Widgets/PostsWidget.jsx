@@ -10,10 +10,17 @@ const PostsWidget = ({ userId, isProfile = false }) => {
   const loggedInUserId = useSelector((state) => state.user._id);
   const [data, setData] = useState([]);
   const [handleCmtFlg, setHandleCmtFlg] = useState(false);
+  const [flagLiked, setFlagLiked] = useState(false);
+  const [isAddFriend, setIsAddFriend] = useState(false);
 
   const handleCmt = () => {
     setHandleCmtFlg(!handleCmt);
   };
+
+  const handleAddFriend = () => {
+    setIsAddFriend(!isAddFriend);
+  };
+
   const getPosts = async () => {
     const response = await fetch(
       // api
@@ -56,10 +63,12 @@ const PostsWidget = ({ userId, isProfile = false }) => {
   const getUserPosts = async () => {
     const response = await fetch(
       // api
-      `http://localhost:3001/post/getUserPosts/${userId}`,
+      `http://localhost:3001/post/getUserPost/${userId}`,
       {
         method: 'GET',
-        headers: { Authorization: `${token}` },
+        headers: {
+          Authorization: `${token}`,
+        },
       }
     );
     const data = await response.json();
@@ -72,14 +81,20 @@ const PostsWidget = ({ userId, isProfile = false }) => {
     } else {
       getPosts();
     }
-  }, [posts]); // eslint-disable-line react-hooks/exhaustive-deps
-  let newPost = posts
-    ?.filter((item) => item.userId === loggedInUserId)
-    .reverse();
+  }, [flagLiked, posts]);
+  // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (isProfile) {
+      getUserPosts();
+    } else {
+      getPosts();
+    }
+  }, [isAddFriend]);
 
   return isProfile ? (
     <>
-      {newPost?.map(
+      {posts?.map(
         ({
           _id,
           userId,
@@ -104,6 +119,9 @@ const PostsWidget = ({ userId, isProfile = false }) => {
             likes={likes}
             comments={comments}
             handleCmt={handleCmt}
+            setFlagLiked={setFlagLiked}
+            flagLiked={flagLiked}
+            handleAddFriend={handleAddFriend}
           />
         )
       )}
@@ -134,6 +152,9 @@ const PostsWidget = ({ userId, isProfile = false }) => {
           likes={likes}
           comments={comments}
           handleCmt={handleCmt}
+          setFlagLiked={setFlagLiked}
+          flagLiked={flagLiked}
+          handleAddFriend={handleAddFriend}
         />
       )
     )

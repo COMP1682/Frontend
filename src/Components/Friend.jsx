@@ -8,12 +8,18 @@ import UserImage from './UserImage';
 import { Fragment, useEffect, useState } from 'react';
 // import { array } from 'yup';
 
-const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
+const Friend = ({
+  friendId,
+  name,
+  subtitle,
+  userPicturePath,
+  handleAddFriend,
+}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { _id } = useSelector((state) => state.user);
   const token = useSelector((state) => state.token);
-  const friends = useSelector((state) => state.user.friends);
+  const { data } = useSelector((state) => state.friends);
   const { userId } = useParams();
   const [flagMine, setFlagMine] = useState(false);
   const [isFriend, setIsFriend] = useState(false);
@@ -25,8 +31,8 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
   const medium = palette.neutral.medium;
 
   useEffect(() => {
-    if (friends != null && Array.isArray(friends)) {
-      setIsFriend(friends.find((friend) => friend._id === friendId));
+    if (data != null && Array.isArray(data)) {
+      setIsFriend(data.find((friend) => friend._id === friendId));
     } else {
       setFriends(false);
     }
@@ -53,8 +59,8 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
     );
     const data = await response.json();
     dispatch(setFriends({ friends: data }));
+    handleAddFriend();
   };
-
   return (
     <FlexBetween>
       <FlexBetween gap='1rem'>
@@ -88,7 +94,7 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
         onClick={() => patchFriend()}
         sx={{ backgroundColor: primaryLight, p: '0.6rem' }}
       >
-        {!isFriend ? (
+        {isFriend ? (
           <PersonRemoveOutlined sx={{ color: primaryDark }} />
         ) : (
           <PersonAddOutlined sx={{ color: primaryDark }} />

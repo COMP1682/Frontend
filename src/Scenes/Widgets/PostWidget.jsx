@@ -34,6 +34,9 @@ const PostWidget = ({
   likes,
   comments,
   handleCmt,
+  setFlagLiked,
+  flagLiked,
+  handleAddFriend,
 }) => {
   const [isComments, setIsComments] = useState(false);
   const [comment, setComment] = useState('');
@@ -47,7 +50,6 @@ const PostWidget = ({
   const isLiked = Boolean(likes[loggedInUserId]);
   const likeCount = Object.keys(likes).length;
   let isValidUser = false;
-
   if (loggedInUserId === postUserId) {
     isValidUser = true;
   }
@@ -77,8 +79,10 @@ const PostWidget = ({
         body: JSON.stringify({ userId: loggedInUserId }),
       }
     );
-    window.location.reload(false);
-    // const updatedPost = await response.json();
+
+    const updatedPost = await response.json();
+    setFlagLiked(!flagLiked);
+
     // dispatch(setPost({ post: updatedPost }));
   };
 
@@ -188,7 +192,7 @@ const PostWidget = ({
 
   return (
     <WidgetWrapper m='2rem 0'>
-      {flagMine ? (
+      {isValidUser ? (
         <FriendofProfile
           friendId={postUserId}
           name={name}
@@ -201,6 +205,7 @@ const PostWidget = ({
           name={name}
           subtitle={location}
           userPicturePath={userPicturePath}
+          handleAddFriend={handleAddFriend}
         />
       )}
 
@@ -220,7 +225,7 @@ const PostWidget = ({
                 <FavoriteBorderOutlined />
               )}
             </IconButton>
-            <Typography>{likeCount}</Typography>
+            <Typography>{Object.keys(likes).length}</Typography>
           </FlexBetween>
 
           {isValidUser && (
