@@ -31,20 +31,24 @@ const Friend = ({
   const medium = palette.neutral.medium;
 
   useEffect(() => {
-    if (data != null && Array.isArray(data)) {
-      setIsFriend(data.find((friend) => friend._id === friendId));
-    } else {
-      setFriends(false);
-    }
-  }, [isFriend]);
-
-  useEffect(() => {
     if (userId === _id) {
       setFlagMine(true);
     } else {
       setFlagMine(false);
     }
   }, [userId]);
+
+  useEffect(() => {
+    if (data !== undefined && Array.isArray(data)) {
+      // setIsFriend(data.find((friend) => friend._id === friendId));
+      const addFriend = data.some((friend) => friend._id === friendId);
+      if (addFriend) {
+        setIsFriend(true);
+      } else {
+        setIsFriend(false);
+      }
+    }
+  }, [isFriend]);
 
   const patchFriend = async () => {
     const response = await fetch(
@@ -59,8 +63,9 @@ const Friend = ({
     );
     const data = await response.json();
     dispatch(setFriends({ friends: data }));
-    handleAddFriend();
+    window.location.reload();
   };
+
   return (
     <FlexBetween>
       <FlexBetween gap='1rem'>
