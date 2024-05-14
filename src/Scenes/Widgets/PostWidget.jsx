@@ -22,6 +22,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { setPost } from 'State';
+import Post from 'Components/Post';
 
 const PostWidget = ({
   postId,
@@ -200,7 +201,7 @@ const PostWidget = ({
           userPicturePath={userPicturePath}
         />
       ) : (
-        <Friend
+        <Post
           friendId={postUserId}
           name={name}
           subtitle={location}

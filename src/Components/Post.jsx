@@ -8,12 +8,18 @@ import UserImage from './UserImage';
 import { Fragment, useEffect, useState } from 'react';
 // import { array } from 'yup';
 
-const FriendofProfile = ({ friendId, name, subtitle, userPicturePath }) => {
+const Friend = ({
+  friendId,
+  name,
+  subtitle,
+  userPicturePath,
+  handleAddFriend,
+}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { _id } = useSelector((state) => state.user);
   const token = useSelector((state) => state.token);
-  const friends = useSelector((state) => state.user.friends);
+  const { data } = useSelector((state) => state.friends);
   const { userId } = useParams();
   const [flagMine, setFlagMine] = useState(false);
   const [isFriend, setIsFriend] = useState(false);
@@ -25,20 +31,24 @@ const FriendofProfile = ({ friendId, name, subtitle, userPicturePath }) => {
   const medium = palette.neutral.medium;
 
   useEffect(() => {
-    if (friends != null && Array.isArray(friends)) {
-      setIsFriend(friends.find((friend) => friend._id === friendId));
-    } else {
-      setFriends(false);
-    }
-  }, [isFriend]);
-
-  useEffect(() => {
     if (userId === _id) {
       setFlagMine(true);
     } else {
       setFlagMine(false);
     }
   }, [userId]);
+
+  useEffect(() => {
+    if (data !== undefined && Array.isArray(data)) {
+      // setIsFriend(data.find((friend) => friend._id === friendId));
+      const addFriend = data.some((friend) => friend._id === friendId);
+      if (addFriend) {
+        setIsFriend(true);
+      } else {
+        setIsFriend(false);
+      }
+    }
+  }, [isFriend]);
 
   const patchFriend = async () => {
     const response = await fetch(
@@ -53,6 +63,7 @@ const FriendofProfile = ({ friendId, name, subtitle, userPicturePath }) => {
     );
     const data = await response.json();
     dispatch(setFriends({ friends: data }));
+    window.location.reload();
   };
 
   return (
@@ -84,18 +95,18 @@ const FriendofProfile = ({ friendId, name, subtitle, userPicturePath }) => {
         </Box>
       </FlexBetween>
 
-      {/* <IconButton
+      <IconButton
         onClick={() => patchFriend()}
         sx={{ backgroundColor: primaryLight, p: '0.6rem' }}
       >
-        {!isFriend ? (
+        {isFriend ? (
           <PersonRemoveOutlined sx={{ color: primaryDark }} />
         ) : (
           <PersonAddOutlined sx={{ color: primaryDark }} />
         )}
-      </IconButton> */}
+      </IconButton>
     </FlexBetween>
   );
 };
 
-export default FriendofProfile;
+export default Friend;

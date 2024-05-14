@@ -77,7 +77,7 @@ const UserWidget = ({ userId, picturePath }) => {
             >
               {firstName} {lastName}
             </Typography>
-            <Typography color={medium}>{friends?.length}</Typography>
+            <Typography color={medium}>Friend: {friends?.length}</Typography>
           </Box>
         </FlexBetween>
         <ManageAccountsOutlined />
@@ -91,15 +91,15 @@ const UserWidget = ({ userId, picturePath }) => {
           <LocationOnOutlined fontSize='large' sx={{ color: main }} />
           <Typography color={medium}>{location}</Typography>
         </Box>
-        <Box display='flex' alignItems='center' gap='1rem'>
+        {/* <Box display='flex' alignItems='center' gap='1rem'>
           <WorkOutlineOutlined fontSize='large' sx={{ color: main }} />
           <Typography color={medium}>{occupation}</Typography>
-        </Box>
+        </Box> */}
       </Box>
 
-      <Divider />
+      {/* <Divider /> */}
 
-      {/* THIRD ROW */}
+      {/* THIRD ROW
       <Box p='1rem 0'>
         <FlexBetween mb='0.5rem'>
           <Typography color={medium}>Who's viewed your profile</Typography>
@@ -115,9 +115,9 @@ const UserWidget = ({ userId, picturePath }) => {
         </FlexBetween>
       </Box>
 
-      <Divider />
+      <Divider /> */}
 
-      {/* FOURTH ROW */}
+      {/* FOURTH ROW
       <Box p='1rem 0'>
         <Typography fontSize='1rem' color={main} fontWeight='500' mb='1rem'>
           Social Profiles
@@ -148,7 +148,7 @@ const UserWidget = ({ userId, picturePath }) => {
           </FlexBetween>
           <EditOutlined sx={{ color: main }} />
         </FlexBetween>
-      </Box>
+      </Box> */}
     </WidgetWrapper>
   );
 };

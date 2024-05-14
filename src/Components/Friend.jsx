@@ -102,6 +102,7 @@ const Friend = ({
         {isFriend ? (
           <PersonRemoveOutlined sx={{ color: primaryDark }} />
         ) : (
+          
           <PersonAddOutlined sx={{ color: primaryDark }} />
         )}
       </IconButton>
